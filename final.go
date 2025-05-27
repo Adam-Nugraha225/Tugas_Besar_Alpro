@@ -1,5 +1,3 @@
-//ini file buat uji coba
-
 package main
 
 import "fmt"
@@ -10,7 +8,7 @@ type ideProyek [NMAX]string
 type kategoriProyek [NMAX]string
 type tanggalBuat [NMAX]string
 type upvote [NMAX]int
-//perlu dibahas lagi jumlah data
+
 var jumlahData int
 
 func inputIde(id *ideProyek, k *kategoriProyek, t *tanggalBuat, u *upvote) {
@@ -45,9 +43,16 @@ func tampilkanSemuaIde(id ideProyek, k kategoriProyek, t tanggalBuat, u upvote) 
   }
   fmt.Println("---------------")
 }
+
 // idx = 1 nfgakses array, idx 1 = 0, 
 func editIde(id *ideProyek, k *kategoriProyek, t *tanggalBuat) {
   var idx int 
+
+  if jumlahData == 0 {
+	fmt.Println("Belum ada ide yang disimpan.")
+	return
+  }
+
   fmt.Print("Masukkan Nomor ide yang ingin diedit: ")
   fmt.Scan(&idx)
   if idx >= 0 && idx < jumlahData{
@@ -62,7 +67,7 @@ func editIde(id *ideProyek, k *kategoriProyek, t *tanggalBuat) {
     fmt.Println("Nomor tidak valid.")
   }
 }
-// 
+
 func hapusIde(id *ideProyek, k *kategoriProyek, t *tanggalBuat, u *upvote) {
   var idx, i int
   fmt.Print("Masukkan Nomor ide yang ingin dihapus: ")
@@ -236,7 +241,7 @@ func cariIdeBinary(id *ideProyek, k *kategoriProyek, t *tanggalBuat, u *upvote) 
   }
 }
 
-// butuh kaji ulang dibagain tempIde, tempKat, tempTgl, tempUp
+
 func tampilkanUrutanUpvoteTerbanyak(id *ideProyek, k *kategoriProyek, t *tanggalBuat, u *upvote) {
   var tempIde [NMAX]string
   var tempKat [NMAX]string
@@ -317,72 +322,6 @@ func idePopuler(id *ideProyek, k *kategoriProyek, t *tanggalBuat, u *upvote) {
 }
 
 
-//terbaru 
-func saranIde(id *ideProyek, k *kategoriProyek, t *tanggalBuat, u *upvote) {
-	fmt.Println("\n===== Saran Ide Startup Menarik =====")
-
-	var saranJudul [10]string
-	var saranKategori [10]string
-
-	// Data saran ide
-	saranJudul[0] = "Jasa Titip Lokal"
-	saranKategori[0] = "Logistik"
-
-	saranJudul[1] = "Konsultasi UMKM Online"
-	saranKategori[1] = "Bisnis"
-
-	saranJudul[2] = "Pasar Sayur Digital"
-	saranKategori[2] = "Pertanian"
-
-	saranJudul[3] = "Startup Edukasi Anak"
-	saranKategori[3] = "Edukasi"
-
-	saranJudul[4] = "Rental Barang Harian"
-	saranKategori[4] = "Marketplace"
-
-	saranJudul[5] = "Donasi Makanan Berlebih"
-	saranKategori[5] = "Sosial"
-
-	saranJudul[6] = "Tracking Sampah Digital"
-	saranKategori[6] = "Lingkungan"
-
-	saranJudul[7] = "Marketplace Freelancer Daerah"
-	saranKategori[7] = "Jasa"
-
-	saranJudul[8] = "Platform Kerja Remote Mahasiswa"
-	saranKategori[8] = "Karir"
-
-	saranJudul[9] = "Aplikasi Laporan Infrastruktur Rusak"
-	saranKategori[9] = "Pemerintahan"
-
-	// Menampilkan saran ide
-	var i int
-	for i = 0; i < 10; i++ {
-		fmt.Printf("%d. %s [%s]\n", i+1, saranJudul[i], saranKategori[i])
-	}
-
-	var pilihan int
-	fmt.Print("Masukkan nomor ide yang ingin Anda tambahkan ke daftar Anda (0 untuk batal): ")
-	fmt.Scan(&pilihan)
-
-	if pilihan >= 1 && pilihan <= 10 {
-		if jumlahData >= NMAX {
-			fmt.Println("Kapasitas penuh, tidak dapat menambahkan saran.")
-			return
-		}
-		id[jumlahData] = saranJudul[pilihan-1]
-		k[jumlahData] = saranKategori[pilihan-1]
-		t[jumlahData] = "2025-05-22" // Misalnya tanggal saat ini
-		u[jumlahData] = 0
-		jumlahData++
-		fmt.Println("Saran ide berhasil ditambahkan.")
-	} else if pilihan == 0 {
-		fmt.Println("Tidak ada ide yang ditambahkan.")
-	} else {
-		fmt.Println("Pilihan tidak valid.")
-	}
-}
-
 
 
 func menu() {
@@ -414,10 +353,9 @@ func menu() {
     fmt.Println("4. Hapus Ide")
     fmt.Println("5. Upvote Ide")
     fmt.Println("6. Cari Ide Sequential")
-	  fmt.Println("7. Saran Ide")
-    fmt.Println("8. Cari Ide Binary")
-    fmt.Println("9. Urutan Ide Berdasarkan Upvote Terbanyak")
-    fmt.Println("10. Ide Populer")
+    fmt.Println("7. Cari Ide Binary")
+    fmt.Println("8. Urutan Ide Berdasarkan Upvote Terbanyak")
+    fmt.Println("9. Ide Populer")
     fmt.Println("0. Keluar")
     fmt.Print("Pilih menu: ")
     fmt.Scan(&pilihan)
@@ -428,20 +366,32 @@ func menu() {
     case 2:
       tampilkanSemuaIde(id, k, t, u)
     case 3:
-      editIde(&id, &k, &t)
+	if jumlahData == 0 {
+		fmt.Println("Belum ada ide yang disimpan.")
+	} else {
+		 editIde(&id, &k, &t)
+	}
+     
     case 4:
-      hapusIde(&id, &k, &t, &u)
+	if jumlahData == 0 {
+		fmt.Println("Belum ada ide yang disimpan.")
+	} else {
+		hapusIde(&id, &k, &t, &u)
+	}
+      
     case 5:
-      upvoteIde(&u)
+	if jumlahData == 0 {
+		fmt.Println("Belum ada ide yang disimpan.")
+	} else {
+		upvoteIde(&u)
+	}
     case 6:
-      cariIdeSequential(&id, &k, &t, &u)
-	case 7:
-	  saranIde(&id, &k, &t, &u)			
-    case 8:
+      cariIdeSequential(&id, &k, &t, &u)	
+    case 7:
       cariIdeBinary(&id, &k, &t, &u)
-    case 9:
+    case 8:
       tampilkanUrutanUpvoteTerbanyak(&id, &k, &t, &u)
-    case 10:
+    case 9:
       idePopuler(&id, &k, &t, &u)
     case 0:
       fmt.Println("Terima kasih telah menggunakan aplikasi.")
