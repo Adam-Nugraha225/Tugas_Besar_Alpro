@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-const NMAX = 100 //0...99
+const NMAX = 100 
 
 type ideProyek [NMAX]string
 type kategoriProyek [NMAX]string
@@ -44,7 +44,7 @@ func tampilkanSemuaIde(id ideProyek, k kategoriProyek, t tanggalBuat, u upvote) 
   fmt.Println("---------------")
 }
 
-// idx = 1 nfgakses array, idx 1 = 0, 
+
 func editIde(id *ideProyek, k *kategoriProyek, t *tanggalBuat) {
   var idx int 
 
